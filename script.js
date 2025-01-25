@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const signatureData = signaturePad.toDataURL();
 
-        fetch('https://script.google.com/macros/s/AKfycbzMmjTgtWvUAPpRXRG26is5104SmsrnoeeJOQ2wNjIGY7_hoFZmijJa3A7nEy29mc2CDQ/exec', {
+        fetch('https://script.google.com/macros/s/AKfycbx-WxAWIj1pvwGynhx99zHB2B3S3fLsHuoxK9kbqrKVyPuRDyBOWkygKk8gu8S1s7CaEQ/exec', {
             method: 'POST',
             body: JSON.stringify({
                 name: name,
