@@ -8,13 +8,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/4.0.0/signature_pad.umd.min.js"></script>
 </head>
 <body>
-    <h2>Signature Form</h2>
-    <input type="text" id="name" placeholder="Enter your name" required>
-    <canvas id="signature-pad"></canvas>
-    <br>
-    <button onclick="clearSignature()">Clear</button>
-    <button onclick="submitForm()">Submit</button>
-
+    <div class="container">
+        <h2>Signature Form</h2>
+        <input type="text" id="name" placeholder="Enter your name" required>
+        <canvas id="signature-pad"></canvas>
+        <button onclick="clearSignature()">Clear</button>
+        <button onclick="submitForm()">Submit</button>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
