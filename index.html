@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signature Form</title>
     <link rel="stylesheet" href="style.css">
+    
+    <!-- Ensure correct SignaturePad library inclusion -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/4.0.0/signature_pad.umd.min.js"></script>
+    
+    <script src="script.js" defer></script>
 </head>
 <body>
     <div class="container">
@@ -15,6 +19,5 @@
         <button onclick="clearSignature()">Clear</button>
         <button onclick="submitForm()">Submit</button>
     </div>
-    <script src="script.js"></script>
 </body>
 </html>
