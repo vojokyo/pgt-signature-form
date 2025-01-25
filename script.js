@@ -47,7 +47,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         fetch('https://script.google.com/macros/s/AKfycbwj5bRdlvT7pVUcMojpdOzOvAiAqQPfqEcacqhpKKQiL2-1q_MUbuJLIEJndpDj8_oEfw/exec', {
             method: 'POST',
-            body: JSON.stringify({
+            body: new FormData(form),
+            mode: 'no-cors'  // Add this line to bypass CORS restrictions
                 name: name,
                 signature: signatureData
             }),
