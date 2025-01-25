@@ -1,5 +1,21 @@
 const canvas = document.getElementById('signature-pad');
-const signaturePad = new SignaturePad(canvas);
+const signaturePad = new SignaturePad(canvas, {
+    backgroundColor: 'white',  // Ensures clear background
+    penColor: 'black'          // Signature color
+});
+
+// Resize the canvas to fit its container
+function resizeCanvas() {
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    canvas.width = canvas.offsetWidth * ratio;
+    canvas.height = 300 * ratio;  // Fixed height for uniformity
+    canvas.getContext("2d").scale(ratio, ratio);
+    signaturePad.clear();  // Reset after resizing
+}
+
+// Resize canvas when the window is resized
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();  // Initial call to set size
 
 // Function to clear the signature
 function clearSignature() {
@@ -21,7 +37,7 @@ function submitForm() {
     const signatureData = signaturePad.toDataURL();
 
     // Send data to Google Apps Script Web App
-    fetch('https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbzMmjTgtWvUAPpRXRG26is5104SmsrnoeeJOQ2wNjIGY7_hoFZmijJa3A7nEy29mc2CDQ/exec', {
         method: 'POST',
         body: JSON.stringify({
             name: name,
@@ -33,3 +49,4 @@ function submitForm() {
     .then(data => alert('Submitted successfully!'))
     .catch(error => alert('Submission failed: ' + error));
 }
+
