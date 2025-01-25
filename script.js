@@ -49,8 +49,6 @@ document.addEventListener('DOMContentLoaded', function () {
             method: 'POST',
             body: new FormData(form),
             mode: 'no-cors'  // Add this line to bypass CORS restrictions
-                name: name,
-                signature: signatureData
             }),
             headers: { "Content-Type": "application/json" }
         })
