@@ -1,29 +1,35 @@
-// Ensure the DOM is fully loaded before running the script
 document.addEventListener('DOMContentLoaded', function () {
     const canvas = document.getElementById('signature-pad');
+    
+    // Check if SignaturePad is loaded
+    if (typeof SignaturePad === 'undefined') {
+        console.error("SignaturePad library not loaded. Check the script link in index.html.");
+        return;
+    }
+    
     const signaturePad = new SignaturePad(canvas, {
-        backgroundColor: 'white',  // Clear background
-        penColor: 'black'          // Pen color
+        backgroundColor: 'white',  
+        penColor: 'black'          
     });
 
-    // Resize canvas to fit its container dynamically
+    // Resize the canvas for responsiveness
     function resizeCanvas() {
         const ratio = Math.max(window.devicePixelRatio || 1, 1);
         canvas.width = canvas.offsetWidth * ratio;
-        canvas.height = 300 * ratio;  // Fixed height for uniformity
+        canvas.height = 300 * ratio;  
         canvas.getContext("2d").scale(ratio, ratio);
-        signaturePad.clear();  // Reset signature after resizing
+        signaturePad.clear();
     }
 
     window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();  // Initial call to adjust canvas size
+    resizeCanvas();
 
-    // Clear the signature canvas
+    // Clear signature function
     window.clearSignature = function () {
         signaturePad.clear();
     };
 
-    // Form submission function
+    // Submit form function
     window.submitForm = function () {
         const name = document.getElementById('name').value.trim();
         
@@ -37,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        const signatureData = signaturePad.toDataURL();  // Convert signature to image URL
+        const signatureData = signaturePad.toDataURL();
 
         fetch('https://script.google.com/macros/s/AKfycbzMmjTgtWvUAPpRXRG26is5104SmsrnoeeJOQ2wNjIGY7_hoFZmijJa3A7nEy29mc2CDQ/exec', {
             method: 'POST',
