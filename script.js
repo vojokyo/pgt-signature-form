@@ -39,7 +39,7 @@ function submitSignature() {
     .then(response => response.json())
     .then(data => {
         if (data.result === 'success') {
-            alert('Signature submitted successfully!');
+            alert(`Signature saved as ${data.fileName}`);
             clearSignature();
             document.getElementById('name').value = '';
         } else {
