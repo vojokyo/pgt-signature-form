@@ -1,61 +1,68 @@
-// Select canvas and input elements
 const canvas = document.getElementById('signature-pad');
 const ctx = canvas.getContext('2d');
-const nameInput = document.getElementById('name');
-
 let drawing = false;
 
-// Function to start drawing
-canvas.addEventListener('mousedown', () => {
+// Start drawing when mouse is pressed
+canvas.addEventListener('mousedown', (event) => {
     drawing = true;
     ctx.beginPath();
+    ctx.moveTo(event.offsetX, event.offsetY);
 });
 
-// Function to stop drawing
-canvas.addEventListener('mouseup', () => {
-    drawing = false;
-    ctx.closePath();
-});
+// Stop drawing when mouse is released
+canvas.addEventListener('mouseup', () => drawing = false);
+canvas.addEventListener('mouseleave', () => drawing = false);
 
-// Function to draw on canvas
+// Draw on canvas when mouse moves
 canvas.addEventListener('mousemove', (event) => {
     if (!drawing) return;
-    const rect = canvas.getBoundingClientRect();
-    ctx.lineWidth = 2;
-    ctx.lineCap = 'round';
-    ctx.strokeStyle = 'black';
-    ctx.lineTo(event.clientX - rect.left, event.clientY - rect.top);
+    ctx.lineTo(event.offsetX, event.offsetY);
     ctx.stroke();
 });
 
-// Function to clear the signature pad
+// Clear the signature pad
 function clearSignature() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-// Function to submit the signature
+// Submit the signature
 function submitSignature() {
-    const name = nameInput.value.trim();
+    const name = document.getElementById('name').value.trim();
     if (!name) {
         alert('Please enter your name.');
         return;
     }
 
-    const signatureData = canvas.toDataURL('image/png');
+    // Check if signature pad is empty
+    if (isCanvasBlank(canvas)) {
+        alert('Please draw your signature before submitting.');
+        return;
+    }
+
+    const signatureData = canvas.toDataURL('image/png'); // Convert canvas to base64 image
+
     fetch('https://script.google.com/macros/s/AKfycbyqp0FfprBz4gHrTURD9UX5mt4BZjse2Rj93VnBrCieqaWjszSGh9tE54fd8Bt1ijyo/exec', {
         method: 'POST',
         body: JSON.stringify({ name: name, signature: signatureData }),
         headers: { 'Content-Type': 'application/json' }
     })
-        .then(response => response.json())
-        .then(data => {
-            if (data.result === 'success') {
-                alert('Signature submitted successfully!');
-                clearSignature();
-                nameInput.value = '';
-            } else {
-                alert('Error submitting signature.');
-            }
-        })
-        .catch(error => console.error('Error:', error));
+    .then(response => response.json())
+    .then(data => {
+        if (data.result === 'success') {
+            alert(`Signature saved as ${data.fileName}`);
+            clearSignature();
+            document.getElementById('name').value = '';
+        } else {
+            alert('Error submitting signature.');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+// Function to check if canvas is blank
+function isCanvasBlank(canvas) {
+    const blank = document.createElement('canvas');
+    blank.width = canvas.width;
+    blank.height = canvas.height;
+    return canvas.toDataURL() === blank.toDataURL();
 }
