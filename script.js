@@ -41,7 +41,7 @@ function submitSignature() {
 
     const signatureData = canvas.toDataURL('image/png'); // Convert canvas to base64 image
 
-fetch('https://script.google.com/macros/s/AKfycbw0R3JKKeaYbDsyNHZplbiQGhRStbN0RQRoO6Kx9CQG_2q9FfNEixfJ7jLmevWVE3ln/exec', {
+fetch('https://script.google.com/macros/s/AKfycbw2lD9oQy_GEiHgqp6mLwqTxZy9U_UqD4dxcwtAuASbe5AHxUZe_ERAe74ifuu0lNw6/exec', {
     method: 'POST',
     mode: 'no-cors',  // Bypass CORS restrictions
     body: JSON.stringify({ name: name, signature: signatureData }),
