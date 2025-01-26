@@ -1,3 +1,7 @@
+const canvas = document.getElementById("signatureCanvas");
+const signaturePad = new SignaturePad(canvas);
+
+
 function submitForm() {
     // Get the data from the signature pad and the name input
     const signatureData = signaturePad.toDataURL(); // Assuming you're using SignaturePad
