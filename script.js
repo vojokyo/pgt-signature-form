@@ -54,24 +54,19 @@ function submitSignature() {
 
     const signatureData = canvas.toDataURL('image/png');
 
-fetch('https://script.google.com/macros/s/AKfycbx88IL7ATjw_6GB4ITo5v9LhP-NSy6bTOhfK7YoB8PlIj_PXe51Vn4fRZsXXfZf7H-t/exec', {
+fetch('https://script.google.com/macros/s/AKfycbzdpIT8CJWGZfU-V_36qW-K6rkwOrJPiMUWYdHtpN9U-tVutwOni_lQcE9PuWDP19i_/exec', {
     method: 'POST',
-    mode: 'cors',
+    mode: 'no-cors',  // Change from 'cors' to 'no-cors'
     body: JSON.stringify({ name: name, signature: signatureData }),
     headers: { 'Content-Type': 'application/json' }
 })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.result === 'success') {
-            alert(`Signature saved successfully.`);
-            clearSignature();
-            document.getElementById('name').value = '';
-        } else {
-            alert('Error submitting signature.');
-        }
-    })
-    .catch(error => console.error('Error:', error));
+.then(response => {
+    alert('Signature submitted! Please check the spreadsheet.');
+    clearSignature();
+    document.getElementById('name').value = '';
+})
+.catch(error => console.error('Error:', error));
+
 }
 
 // Check if the canvas is blank
