@@ -54,11 +54,12 @@ function submitSignature() {
 
     const signatureData = canvas.toDataURL('image/png');
 
-    fetch('https://script.google.com/macros/s/AKfycbxzBTasf_SZng7RLf83xIib3t-0oHEHnXNWxno8YaOEALjaG1z10vo-xAbd3QvwKvjE/exec', {
-        method: 'POST',
-        mode: 'cors',
-        body: JSON.stringify({ name: name, signature: signatureData }),
-        headers: { 'Content-Type': 'application/json' }
+fetch('https://script.google.com/macros/s/AKfycbx88IL7ATjw_6GB4ITo5v9LhP-NSy6bTOhfK7YoB8PlIj_PXe51Vn4fRZsXXfZf7H-t/exec', {
+    method: 'POST',
+    mode: 'cors',
+    body: JSON.stringify({ name: name, signature: signatureData }),
+    headers: { 'Content-Type': 'application/json' }
+})
     })
     .then(response => response.json())
     .then(data => {
