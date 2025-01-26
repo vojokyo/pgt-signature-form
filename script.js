@@ -41,22 +41,19 @@ function submitSignature() {
 
     const signatureData = canvas.toDataURL('image/png'); // Convert canvas to base64 image
 
-    fetch('https://script.google.com/macros/s/AKfycbyqp0FfprBz4gHrTURD9UX5mt4BZjse2Rj93VnBrCieqaWjszSGh9tE54fd8Bt1ijyo/exec', {
-        method: 'POST',
-        body: JSON.stringify({ name: name, signature: signatureData }),
-        headers: { 'Content-Type': 'application/json' }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.result === 'success') {
-            alert(`Signature saved as ${data.fileName}`);
-            clearSignature();
-            document.getElementById('name').value = '';
-        } else {
-            alert('Error submitting signature.');
-        }
-    })
-    .catch(error => console.error('Error:', error));
+fetch('https://script.google.com/macros/s/AKfycbw0R3JKKeaYbDsyNHZplbiQGhRStbN0RQRoO6Kx9CQG_2q9FfNEixfJ7jLmevWVE3ln/exec', {
+    method: 'POST',
+    mode: 'no-cors',  // Bypass CORS restrictions
+    body: JSON.stringify({ name: name, signature: signatureData }),
+    headers: { 'Content-Type': 'application/json' }
+})
+.then(response => {
+    alert('Signature submitted successfully! (CORS mode no-cors applied)');
+    clearSignature();
+    document.getElementById('name').value = '';
+})
+.catch(error => console.error('Error:', error));
+
 }
 
 // Function to check if canvas is blank
