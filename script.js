@@ -42,7 +42,7 @@ function submitSignature() {
     }
 
     const signatureData = canvas.toDataURL('image/png');
-    fetch('https://script.google.com/macros/s/YOUR_DEPLOYED_SCRIPT_URL/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbyqp0FfprBz4gHrTURD9UX5mt4BZjse2Rj93VnBrCieqaWjszSGh9tE54fd8Bt1ijyo/exec', {
         method: 'POST',
         body: JSON.stringify({ name: name, signature: signatureData }),
         headers: { 'Content-Type': 'application/json' }
