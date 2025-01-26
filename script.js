@@ -1,62 +1,29 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const canvas = document.getElementById('signature-pad');
-    
-    // Check if SignaturePad is loaded
-    if (typeof SignaturePad === 'undefined') {
-        console.error("SignaturePad library not loaded. Check the script link in index.html.");
+function submitForm() {
+    // Get the data from the signature pad and the name input
+    const signatureData = signaturePad.toDataURL(); // Assuming you're using SignaturePad
+    const name = document.getElementById('name').value; // Get the value of the 'name' input field
+
+    // Check if the name is entered, if not, alert the user
+    if (!name) {
+        alert("Name is required!");
         return;
     }
-    
-    const signaturePad = new SignaturePad(canvas, {
-        backgroundColor: 'white',  
-        penColor: 'black'          
+
+    // Prepare the data to be sent in the request
+    const formData = new FormData();
+    formData.append('signatureData', signatureData);
+    formData.append('name', name);
+
+    // Send the form data to your Google Apps Script endpoint with no-cors mode
+    fetch('https://script.google.com/macros/s/YOUR_NEW_DEPLOYMENT_URL/exec', {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors',  // Bypass CORS for now (handle without detailed response)
+    })
+    .then(response => {
+        console.log('Form submitted successfully');
+    })
+    .catch(error => {
+        console.error('Error:', error);
     });
-
-    // Resize the canvas for responsiveness
-    function resizeCanvas() {
-        const ratio = Math.max(window.devicePixelRatio || 1, 1);
-        canvas.width = canvas.offsetWidth * ratio;
-        canvas.height = 300 * ratio;  
-        canvas.getContext("2d").scale(ratio, ratio);
-        signaturePad.clear();
-    }
-
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
-
-    // Clear signature function
-    window.clearSignature = function () {
-        signaturePad.clear();
-    };
-
-    // Submit form function
-    window.submitForm = function () {
-        const name = document.getElementById('name').value.trim();
-        
-        if (!name) {
-            alert('Please enter your name.');
-            return;
-        }
-
-        if (signaturePad.isEmpty()) {
-            alert('Please provide a signature.');
-            return;
-        }
-
-        const signatureData = signaturePad.toDataURL();
-
-        fetch('https://script.google.com/macros/s/AKfycbwj5bRdlvT7pVUcMojpdOzOvAiAqQPfqEcacqhpKKQiL2-1q_MUbuJLIEJndpDj8_oEfw/exec', {
-            method: 'POST',
-            body: new FormData(form),
-            mode: 'no-cors'  // Add this line to bypass CORS restrictions
-            }),
-            headers: { "Content-Type": "application/json" }
-        })
-        .then(response => response.text())
-        .then(data => {
-            alert('Submitted successfully!');
-            clearSignature();
-        })
-        .catch(error => alert('Submission failed: ' + error));
-    };
-});
+}
